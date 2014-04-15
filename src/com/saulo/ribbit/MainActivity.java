@@ -1,6 +1,9 @@
 package com.saulo.ribbit;
 
 import java.util.Locale;
+
+import com.parse.ParseAnalytics;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +44,8 @@ public class MainActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		ParseAnalytics.trackAppOpened(getIntent());
+		
 		Intent intent = new Intent(this, LoginActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
