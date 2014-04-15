@@ -2,8 +2,6 @@ package com.saulo.ribbit;
 
 import java.util.Locale;
 
-import com.parse.ParseAnalytics;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,10 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseUser;
+
 @SuppressLint("InlinedApi")
 public class MainActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
 
+	public static final String TAG = MainActivity.class.getSimpleName();
+	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
@@ -45,11 +50,13 @@ public class MainActivity extends ActionBarActivity implements
 		setContentView(R.layout.activity_main);
 
 		ParseAnalytics.trackAppOpened(getIntent());
+		ParseUser currentUser = ParseUser.getCurrentUser();
 		
-		Intent intent = new Intent(this, LoginActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		startActivity(intent);
+		if (currentUser == null) {
+			navigateToLogin();
+		} else {
+			Log.i(TAG, currentUser.getUsername());
+		}
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
@@ -87,6 +94,13 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	}
 
+	private void navigateToLogin() {
+		Intent intent = new Intent(this, LoginActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(intent);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -94,15 +108,15 @@ public class MainActivity extends ActionBarActivity implements
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
+	
+ 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+		int itemId = item.getItemId();
+		
+		if (itemId == R.id.action_loggout) {
+			ParseUser.logOut();
+			navigateToLogin();
 		}
 		return super.onOptionsItemSelected(item);
 	}

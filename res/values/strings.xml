@@ -17,4 +17,7 @@
     <string name="sign_up_button_label">Sign Up</string>
     <string name="sign_up_error_message">Please make sure enter you username, email and password!</string>
     <string name="sign_up_error_title">Opss!</string>
+    <string name="login_error_message">Please make sure enter you username and password!</string>
+    <string name="login_error_title">Opss!</string>
+    <string name="menu_logout_label">Logout</string>    
 </resources>
