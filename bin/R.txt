@@ -363,6 +363,7 @@ int string email_hint 0x7f0a0016
 int string empty_edit_friends_label 0x7f0a001f
 int string empty_friends_label 0x7f0a001e
 int string empty_inbox_label 0x7f0a001d
+int string error_external_storage 0x7f0a0028
 int string error_title 0x7f0a0024
 int string hello_world 0x7f0a0022
 int string login_button_label 0x7f0a0013

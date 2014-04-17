@@ -1,10 +1,17 @@
 package com.saulo.ribbit;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -14,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
@@ -28,6 +36,11 @@ public class MainActivity extends ActionBarActivity implements
 	public static final int PICK_PHOTO_REQUEST = 2;
 	public static final int PICK_VIDEO_REQUEST = 3;
 	
+	public static final int MEDIA_TYPE_IMAGE = 4;
+	public static final int MEDIA_TYPE_VIDEO = 5;
+	
+	protected Uri mMediaUri;
+	
 	protected DialogInterface.OnClickListener mDialoagListener = 
 			new DialogInterface.OnClickListener() {
 		@Override
@@ -35,8 +48,15 @@ public class MainActivity extends ActionBarActivity implements
 			switch (which) {
 				case 0:
 					Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
-					break;
+					mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+					
+					if (mMediaUri == null) {
+						Toast.makeText(MainActivity.this, R.string.error_external_storage, Toast.LENGTH_LONG).show();
+					} else {
+					
+						takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+						startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+					}
 				case 1:
 					break;
 				case 2:
@@ -45,7 +65,57 @@ public class MainActivity extends ActionBarActivity implements
 					break;
 			}
 		}
+		
+		
+		
+		private Uri getOutputMediaFileUri(int mediaType) {		
+			Uri uri = null;
+			
+			if (isExternalStorageAvailable()) { 
+				String appName = MainActivity.this.getString(R.string.app_name);
+				File mediaStoreDir = new File(
+						Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), appName);
+				
+				if (! mediaStoreDir.exists()) {
+					if (! mediaStoreDir.mkdirs()) {
+						Log.e(TAG, "Failed to create directory.");
+						uri = null;
+					}
+				}
+				
+				File mediaFile;
+				Date now = new Date();
+				String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(now);
+				
+				String path = mediaStoreDir.getPath() + File.separator;
+				if (mediaType == MEDIA_TYPE_IMAGE) {
+					mediaFile = new File(path + "img_" + timestamp + ".jpg");
+				} else if (mediaType == MEDIA_TYPE_VIDEO) {
+					mediaFile = new File(path + "VID_" + ".mp4");
+				} else {
+					uri = null;
+					mediaFile = null;
+				}
+				
+				Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
+				uri = Uri.fromFile(mediaFile);
+			} else {
+				
+			}
+			
+			return uri;
+		}
 
+		private boolean isExternalStorageAvailable() {
+			String state = Environment.getExternalStorageState();
+			boolean status = false;
+			
+			if (state.equals(Environment.MEDIA_MOUNTED)) {
+				status = true;
+			}
+			
+			return status;
+		}
 	};
 	
 	SectionsPagerAdapter mSectionsPagerAdapter;
