@@ -1,5 +1,19 @@
-
-    <menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <item android:id="@+id/action_loggout" android:title="@string/menu_logout_label"></item>
-        <item android:id="@+id/action_edit_friends" android:title="@string/menu_edit_friends_label"></item>
-    </menu>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+      xmlns:ribbit="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_edit_friends"
+        android:title="@string/menu_edit_friends_label">
+    </item>
+    
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/menu_logout_label">
+    </item>
+    
+    <item
+        android:id="@+id/action_camera"
+        android:icon="@drawable/ic_action_camera"
+        ribbit:showAsAction="always"
+        android:title="@string/menu_camera_label">
+    </item>
+</menu>

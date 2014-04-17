@@ -79,7 +79,7 @@ public class MainActivity extends ActionBarActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
 		
-		if (itemId == R.id.action_loggout) {
+		if (itemId == R.id.action_logout) {
 			ParseUser.logOut();
 			navigateToLogin();
 		} else if (itemId == R.id.action_edit_friends) {
