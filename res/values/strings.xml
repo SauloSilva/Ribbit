@@ -37,5 +37,8 @@
         <item>Choice Picture</item>
         <item>Choice Video </item>
     </string-array>
+        <string name="vide_file_size_warning">The selected video must be less than 10MB</string>
+        <string name="error_openning_file">There was a problem with the seleceted file.</string>
+        <string name="error_file_size_to_large">The select file is too large! Seletec a new file.</string>
 
 </resources>

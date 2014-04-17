@@ -364,6 +364,8 @@ int string empty_edit_friends_label 0x7f0a001f
 int string empty_friends_label 0x7f0a001e
 int string empty_inbox_label 0x7f0a001d
 int string error_external_storage 0x7f0a0028
+int string error_file_size_to_large 0x7f0a002c
+int string error_openning_file 0x7f0a002b
 int string error_title 0x7f0a0024
 int string general_error 0x7f0a0029
 int string hello_world 0x7f0a0022
@@ -386,6 +388,7 @@ int string title_section_inbox 0x7f0a000e
 int string user_added_toast 0x7f0a0025
 int string user_deleted_toast 0x7f0a0026
 int string username_hint 0x7f0a0011
+int string vide_file_size_warning 0x7f0a002a
 int style AppBaseTheme 0x7f0b008b
 int style AppTheme 0x7f0b008c
 int style TextAppearance_AppCompat_Base_CompactMenu_Dialog 0x7f0b0063
