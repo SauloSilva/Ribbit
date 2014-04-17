@@ -53,11 +53,20 @@ public class MainActivity extends ActionBarActivity implements
 					if (mMediaUri == null) {
 						Toast.makeText(MainActivity.this, R.string.error_external_storage, Toast.LENGTH_LONG).show();
 					} else {
-					
 						takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
 						startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
 					}
 				case 1:
+					Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+					mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+					if (mMediaUri == null) {
+						Toast.makeText(MainActivity.this, R.string.error_external_storage, Toast.LENGTH_LONG).show();
+					} else {
+						videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+						videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+						videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+						startActivityForResult(videoIntent, TAKE_VIDEO_REQUEST);
+					}
 					break;
 				case 2:
 					break;
@@ -69,7 +78,7 @@ public class MainActivity extends ActionBarActivity implements
 		
 		
 		private Uri getOutputMediaFileUri(int mediaType) {		
-			Uri uri = null;
+			Uri uri;
 			
 			if (isExternalStorageAvailable()) { 
 				String appName = MainActivity.this.getString(R.string.app_name);
@@ -91,7 +100,7 @@ public class MainActivity extends ActionBarActivity implements
 				if (mediaType == MEDIA_TYPE_IMAGE) {
 					mediaFile = new File(path + "img_" + timestamp + ".jpg");
 				} else if (mediaType == MEDIA_TYPE_VIDEO) {
-					mediaFile = new File(path + "VID_" + ".mp4");
+					mediaFile = new File(path + "video_" + timestamp + ".mp4");
 				} else {
 					uri = null;
 					mediaFile = null;
@@ -100,7 +109,7 @@ public class MainActivity extends ActionBarActivity implements
 				Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
 				uri = Uri.fromFile(mediaFile);
 			} else {
-				
+				uri = null;
 			}
 			
 			return uri;
@@ -158,6 +167,19 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) { 
+			Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+			mediaScanIntent.setData(mMediaUri);
+			sendBroadcast(mediaScanIntent);
+		} else if (resultCode != RESULT_CANCELED) {
+			Toast.makeText(this, R.string.general_error, Toast.LENGTH_LONG).show();
+		}
+		
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	private void navigateToLogin() {
 		Intent intent = new Intent(this, LoginActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -180,14 +202,17 @@ public class MainActivity extends ActionBarActivity implements
 			case R.id.action_logout:
 				ParseUser.logOut();
 				navigateToLogin();
+				break;
 			case R.id.action_edit_friends:
 				Intent intent = new Intent(this, EditFriendsActivity.class);
 				startActivity(intent);
+				break;
 			case R.id.action_camera:
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setItems(R.array.camera_choices, mDialoagListener);
 				AlertDialog dialog =  builder.create();
 				dialog.show();
+				break;
 		}
 
 		return super.onOptionsItemSelected(item);

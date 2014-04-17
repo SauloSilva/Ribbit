@@ -29,7 +29,8 @@
     <string name="user_deleted_toast">User deleted!</string>
     <string name="menu_camera_label">Camera</string>
     <string name="error_external_storage">There was a problem accessing your device\'s external storage :(</string>
-
+	<string name="general_error">Sorry, there was an error!</string>
+    
     <string-array name="camera_choices">
         <item>Take Picture</item>
         <item>Take Video</item>
