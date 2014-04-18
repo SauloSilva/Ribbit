@@ -29,16 +29,24 @@
     <string name="user_deleted_toast">User deleted!</string>
     <string name="menu_camera_label">Camera</string>
     <string name="error_external_storage">There was a problem accessing your device\'s external storage :(</string>
-	<string name="general_error">Sorry, there was an error!</string>
-    
+    <string name="general_error">Sorry, there was an error!</string>
+
     <string-array name="camera_choices">
         <item>Take Picture</item>
         <item>Take Video</item>
         <item>Choice Picture</item>
         <item>Choice Video </item>
     </string-array>
-        <string name="vide_file_size_warning">The selected video must be less than 10MB</string>
-        <string name="error_openning_file">There was a problem with the seleceted file.</string>
-        <string name="error_file_size_to_large">The select file is too large! Seletec a new file.</string>
+
+    <string name="vide_file_size_warning">The selected video must be less than 10MB</string>
+    <string name="error_openning_file">There was a problem with the seleceted file.</string>
+    <string name="error_file_size_to_large">The select file is too large! Seletec a new file.</string>
+    <string name="title_activity_recipients">Choose Recipients</string>
+    <string name="empty_recipients_list_message">Choose some friends first!</string>
+    <string name="menu_send_label">Send</string>
+    <string name="error_selecting_file">There was an error with the file selected! Please seletec a differente file</string>
+    <string name="error_selecting_file_title">We/`re sorry!</string>
+    <string name="success_message">Message sent!</string>
+    <string name="error_sending_message">There was an error sending your message! Please try again.</string>
 
 </resources>

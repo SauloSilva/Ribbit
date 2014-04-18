@@ -59,6 +59,7 @@ public class MainActivity extends ActionBarActivity implements
 						takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
 						startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
 					}
+					break;
 				case 1:
 					Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 					mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
@@ -84,8 +85,6 @@ public class MainActivity extends ActionBarActivity implements
 					break;
 			}
 		}
-		
-		
 		
 		private Uri getOutputMediaFileUri(int mediaType) {		
 			Uri uri;
@@ -221,6 +220,18 @@ public class MainActivity extends ActionBarActivity implements
 				mediaScanIntent.setData(mMediaUri);
 				sendBroadcast(mediaScanIntent);
 			}
+			
+			Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
+			recipientsIntent.setData(mMediaUri);
+			
+			String fileType;
+			if (requestCode == PICK_PHOTO_REQUEST || requestCode == TAKE_PHOTO_REQUEST) {
+				fileType = ParseConstants.TYPE_IMAGE;
+			} else {
+				fileType = ParseConstants.TYPE_VIDEO;
+			}
+			recipientsIntent.putExtra(ParseConstants.KEY_FILE_TYPE, fileType);
+			startActivity(recipientsIntent);
 		
 		} else if (resultCode != RESULT_CANCELED) {
 			Toast.makeText(this, R.string.general_error, Toast.LENGTH_LONG).show();

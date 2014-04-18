@@ -52,6 +52,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.saulo.ribbit.MainActivity" />
         </activity>
+        <activity
+            android:name="com.saulo.ribbit.RecipientsActivity"
+            android:label="@string/title_activity_recipients"
+            android:parentActivityName="com.saulo.ribbit.MainActivity" android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.saulo.ribbit.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
