@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,8 +24,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import com.parse.FindCallback;
 import com.parse.ParseAnalytics;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 @SuppressLint("InlinedApi")
@@ -43,6 +50,9 @@ public class MainActivity extends ActionBarActivity implements
 	public static final int FILE_SIZE_LIMIT = 1024*1024*10;
 	
 	protected Uri mMediaUri;
+	
+	SectionsPagerAdapter mSectionsPagerAdapter;
+	ViewPager mViewPager;
 	
 	protected DialogInterface.OnClickListener mDialoagListener = 
 			new DialogInterface.OnClickListener() {
@@ -136,9 +146,6 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	};
 	
-	SectionsPagerAdapter mSectionsPagerAdapter;
-	ViewPager mViewPager;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -175,6 +182,7 @@ public class MainActivity extends ActionBarActivity implements
 					.setTabListener(this));
 		}
 	}
+	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
