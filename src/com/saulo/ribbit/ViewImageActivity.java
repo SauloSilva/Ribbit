@@ -1,5 +1,8 @@
 package com.saulo.ribbit;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,5 +23,14 @@ public class ViewImageActivity extends Activity {
 		
 		setTitle(getString(R.string.image_sender_to) + " " + senderName);
 		Picasso.with(this).load(imageUri.toString()).into(imageView);
+		
+		Timer time = new Timer();
+		time.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				finish();
+			}
+		}, 10*1000);
 	}
 }

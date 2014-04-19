@@ -1,5 +1,6 @@
 package com.saulo.ribbit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -54,8 +55,12 @@ public class InboxFragment extends ListFragment {
 						i++;
 					}
 					
-					MessageAdapter adapter = new MessageAdapter(getListView().getContext(), mMessages);
-					setListAdapter(adapter);	
+					if (getListView().getAdapter() == null) {
+						MessageAdapter adapter = new MessageAdapter(getListView().getContext(), mMessages);						
+						setListAdapter(adapter);	
+					} else {
+						((MessageAdapter) getListView().getAdapter()).refill(mMessages);
+					}
 				}
 				
 			}
@@ -81,5 +86,19 @@ public class InboxFragment extends ListFragment {
 			intent.setDataAndType(fileUri, "video/*");
 			startActivity(intent);
 		}
+		
+ 		List<String> ids = message.getList(ParseConstants.KEY_RECIPIENT_IDS);
+ 		
+ 		if (ids.size() == 1) {
+ 			message.deleteInBackground();
+ 		} else {
+ 			ids.remove(ParseUser.getCurrentUser().getObjectId());
+ 			
+ 			ArrayList<String> idsToRemove = new ArrayList<String>();
+ 			idsToRemove.add(ParseUser.getCurrentUser().getObjectId());
+ 			
+ 			message.removeAll(ParseConstants.KEY_RECIPIENT_IDS, idsToRemove);
+ 			message.saveInBackground();
+ 		}
  	}
 }
